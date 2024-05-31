@@ -35,3 +35,22 @@ document.getElementById('contactForm').addEventListener('submit', function (even
             formMessage.textContent = 'Failed to send message. Please try again later.';
         });
 });
+
+document.getElementById('contactForm').addEventListener('submit', function (event) {
+    event.preventDefault();
+
+    var submitButton = document.getElementById('submitButton');
+    var formMessage = document.querySelector('.form-message');
+
+    submitButton.disabled = true;
+    submitButton.textContent = 'Sending...';
+    formMessage.textContent = '';
+
+    setTimeout(function () {
+        submitButton.disabled = false;
+        submitButton.textContent = 'SEND MESSAGE';
+        formMessage.textContent = 'Message sent successfully!';
+
+        document.getElementById('contactForm').reset();
+    }, 2000);
+});
