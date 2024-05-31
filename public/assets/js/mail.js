@@ -27,6 +27,9 @@ document.getElementById('contactForm').addEventListener('submit', function (even
             formMessage.textContent = data.message;
             if (data.success) {
                 document.getElementById('contactForm').reset();
+                setTimeout(function () {
+                    formMessage.textContent = '';
+                }, 3000);
             }
         })
         .catch(error => {

@@ -9,10 +9,8 @@ const PORT = process.env.PORT || 3000;
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
-// Serve static files from the 'public' directory
 app.use(express.static('public'));
 
-// Set up CORS headers
 app.use(function (req, res, next) {
     res.setHeader('Access-Control-Allow-Origin', 'https://earthspace.onrender.com');
     res.setHeader('Access-Control-Allow-Methods', 'GET, POST');
@@ -25,8 +23,8 @@ const smtpConfig = {
     port: 465,
     secure: true,
     auth: {
-        user: 'littlemovie00@gmail.com',
-        pass: 'vogscivnohmvbpqu'
+        user: 'earthspaceinternational@gmail.com',
+        pass: 'xriuhulzxsrqrnok'
     }
 };
 
@@ -39,21 +37,45 @@ transporter.verify(function (error, success) {
     }
 });
 
-// Handle the root URL
 app.get('/', (req, res) => {
     res.sendFile(path.join(__dirname, 'public', 'index.html'));
 });
 
 app.post('/send-email', (req, res) => {
     const { name, email, subject, number, message } = req.body;
-    console.log(req.body); 
-    const adminEmail = 'littlemovie00+12@gmail.com';
+    const adminEmail = 'earthspaceinternational@gmail.com';
+
+    const htmlTemplate = `
+        <html>
+        <body>
+            <h2>Earthspace International - New Message Details</h2>
+            <table style="width: 100%; border-collapse: collapse;">
+                <tr>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Name:</td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">${name}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Email:</td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">${email}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">Contact Number:</td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px;">${number}</td>
+                </tr>
+                <tr>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px; vertical-align: top;">Message:</td>
+                    <td style="border: 1px solid #dddddd; text-align: left; padding: 8px; vertical-align: top;">${message.replace(/\n/g, '<br>')}</td>
+                </tr>
+            </table>
+        </body>
+        </html>
+    `;
 
     const mailOptions = {
-        from: 'littlemovie00@gmail.com',
+        from: 'Earthspace International <earthspaceinternational@gmail.com>',
         to: adminEmail,
         subject: `New Message from ${name}: ${subject}`,
-        text: `Name: ${name}\nEmail: ${email}\nContact Number: ${number}\n\nMessage:\n${message}`
+        html: htmlTemplate
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -68,5 +90,5 @@ app.post('/send-email', (req, res) => {
 });
 
 app.listen(PORT, () => {
-    console.log(`Server is running on http://localhost:${PORT}`);
+    console.log(`Server is running on ${PORT}`);
 });
