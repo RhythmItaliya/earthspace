@@ -9,7 +9,7 @@ document.getElementById('contactForm').addEventListener('submit', function (even
         message: document.querySelector('textarea[name="message"]').value
     };
 
-    fetch('http://localhost:3000/send-email', {
+    fetch('https://earthspace.onrender.com/send-email', {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
